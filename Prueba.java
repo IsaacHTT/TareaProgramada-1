@@ -5,7 +5,10 @@ public class Prueba{
 
 
 	Master master1 = new Master();
+
+	master1.setGamemode();
  	master1.generarFichas();
+ 	master1.repartirFichas();
 	
 	
 
