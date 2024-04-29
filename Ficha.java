@@ -3,6 +3,7 @@ public class Ficha{
 	private int arriba;
 	private int id;
 	private boolean disponible;
+	//private Jugador dueno;
 
 	public Ficha (int abajo, int arriba, int id){
 		this.abajo = abajo;
@@ -14,6 +15,10 @@ public class Ficha{
 	public void setDisponible(boolean disponible){
 		this.disponible = disponible;
 	}
+
+	//public void setDueno(Jugador player){
+	//	this.dueno = player;
+	//}
 
 	public int getAbajo(){
 		return this.abajo;
@@ -28,4 +33,8 @@ public class Ficha{
 	public boolean getDisponible(){
 		return this.disponible;
 	}
+
+	//public Jugador getDueno(){
+	//	return this.dueno;
+	//}
 }
