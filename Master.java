@@ -40,9 +40,9 @@ public class Master{
 			Ficha stageFicha = new Ficha(0, 0, 0);
 			
 			Ficha[] mano1;
-				mano1 = new Ficha[6];
+				mano1 = new Ficha[7];
 			Ficha[] mano2;
-				mano2 = new Ficha[6];
+				mano2 = new Ficha[7];
 
 			int m;
 			for(m=0; m <=6; m++){
@@ -54,6 +54,19 @@ public class Master{
 				}
 			} while (stageFicha.getDisponible() == false);
 				mano1[m] = stageFicha;
+				stageFicha.setDisponible(false);
+				System.out.println("#"+mano1[m].getId()+": ["+mano1[m].getArriba()+"|"+mano1[m].getAbajo()+"]");
+
+				do{
+				int rand2 = (int)(Math.random()*27);
+				for(Ficha ficha : listaFichas){
+					if (ficha.getId() == rand2)
+					stageFicha = ficha;
+				}
+			} while (stageFicha.getDisponible() == false);
+				mano2[m] = stageFicha;
+				stageFicha.setDisponible(false);
+				System.out.println("#"+mano2[m].getId()+": ["+mano2[m].getArriba()+"|"+mano2[m].getAbajo()+"]");
 				
 
 			
