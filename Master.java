@@ -13,11 +13,15 @@ public class Master{
 	int numeroFichas = Integer.parseInt(JOptionPane.showInputDialog("Elija el numero de fichas"));
 	
 
+	Ficha[] listaFichas;
+	
+
 	public void generarFichas(){
+		
 		int i;
 		int j;
 		int contadorId = 0;
-		Ficha[] listaFichas;
+
 		listaFichas = new Ficha[((numeroFichas+1)*(numeroFichas+2))/2];
 		for(i=0; i <= numeroFichas; i++){
 			for(j=0; j <= i; j++){
@@ -33,7 +37,7 @@ public class Master{
 
 		public void repartirFichas(){
 
-			Ficha stageFicha;
+			Ficha stageFicha = new Ficha(0, 0, 0);
 			
 			Ficha[] mano1;
 				mano1 = new Ficha[6];
@@ -44,11 +48,11 @@ public class Master{
 			for(m=0; m <=6; m++){
 				do{
 				int rand1 = (int)(Math.random()*27);
-				for(int ficha : listaFichas){
-					if (listaFichas[ficha].getId() == rand1)
-					stageFicha = listaFichas[ficha];
+				for(Ficha ficha : listaFichas){
+					if (ficha.getId() == rand1)
+					stageFicha = ficha;
 				}
-			} while (listaFichas(ficha).getDisponible() == false);
+			} while (stageFicha.getDisponible() == false);
 				mano1[m] = stageFicha;
 				
 
