@@ -14,7 +14,7 @@ public class Master{
 	
 
 	Ficha[] listaFichas;
-	
+	//Ficha[] huerfanas;
 
 	public void generarFichas(){
 		
@@ -26,7 +26,7 @@ public class Master{
 		for(i=0; i <= numeroFichas; i++){
 			for(j=0; j <= i; j++){
 				listaFichas[contadorId] = new Ficha(i, j, contadorId);
-				System.out.println("#"+listaFichas[contadorId].getId()+": ["+listaFichas[contadorId].getArriba()+"|"+listaFichas[contadorId].getAbajo()+"]");
+				//System.out.println("#"+listaFichas[contadorId].getId()+": ["+listaFichas[contadorId].getArriba()+"|"+listaFichas[contadorId].getAbajo()+"]");
 				contadorId = contadorId + 1;
 
 			}
@@ -49,28 +49,53 @@ public class Master{
 				do{
 				int rand1 = (int)(Math.random()*27);
 				for(Ficha ficha : listaFichas){
-					if (ficha.getId() == rand1)
+					if (ficha.getId() == rand1){
 					stageFicha = ficha;
+					}
+
 				}
 			} while (stageFicha.getDisponible() == false);
 				mano1[m] = stageFicha;
 				stageFicha.setDisponible(false);
-				System.out.println("#"+mano1[m].getId()+": ["+mano1[m].getArriba()+"|"+mano1[m].getAbajo()+"]");
+				System.out.println("Ficha"+m+"de jugador 1"+mano1[m].getId()+": ["+mano1[m].getArriba()+"|"+mano1[m].getAbajo()+"]");
 
 				do{
 				int rand2 = (int)(Math.random()*27);
 				for(Ficha ficha : listaFichas){
-					if (ficha.getId() == rand2)
+					if (ficha.getId() == rand2){
 					stageFicha = ficha;
+					}
 				}
 			} while (stageFicha.getDisponible() == false);
 				mano2[m] = stageFicha;
 				stageFicha.setDisponible(false);
-				System.out.println("#"+mano2[m].getId()+": ["+mano2[m].getArriba()+"|"+mano2[m].getAbajo()+"]");
+				System.out.println("Ficha"+m+"de jugador 2"+mano2[m].getId()+": ["+mano2[m].getArriba()+"|"+mano2[m].getAbajo()+"]");
 				
-
+			
+			
 			
 			}
+
+			//int huerfana = 0;
+			//huerfanas = new Ficha[(((numeroFichas+1)*(numeroFichas+2))/2)-14];
+			//for(Ficha ficha : listaFichas){
+			//	if(ficha.getDisponible()==true){
+			//		huerfanas[huerfana] = ficha;
+			//		System.out.println(huerfanas[huerfana].getId()+": ["+huerfanas[huerfana].getArriba()+"|"+huerfanas[huerfana].getAbajo()+"]");
+			//		huerfana += huerfana;
+
+			//	}
+			//}
+		}
+
+		public void escogerTurno(){
+			int turno1 = 0;
+			for(Ficha ficha : listaFichas){
+				if(ficha.getDisponible()==false && ficha.getArriba() == ficha.getAbajo()){
+					turno1 = ficha.getId();   //aqui iria un getDueño()
+				}
+			}
+			System.out.println(turno1);
 		}
 
 	}

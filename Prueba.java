@@ -9,7 +9,7 @@ public class Prueba{
 	master1.setGamemode();
  	master1.generarFichas();
  	master1.repartirFichas();
-	
+	master1.escogerTurno();
 	
 
 	}

@@ -8,6 +8,7 @@ public class Ficha{
 		this.abajo = abajo;
 		this.arriba = arriba;
 		this.id = id;
+		this.disponible = true;
 	}
 
 	public void setDisponible(boolean disponible){
