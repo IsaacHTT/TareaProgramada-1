@@ -4,12 +4,15 @@ public class Prueba{
 	public static void main(String [] args){
 
 
-	Master master1 = new Master();
+	Master master = new Master();
 
-	master1.setGamemode();
- 	master1.generarFichas();
- 	master1.repartirFichas();
-	master1.escogerTurno();
+	master.setGamemode();
+ 	master.generarFichas();
+ 	master.repartirFichas();
+	master.escogerTurno();
+
+	Jugador player = new Jugador();
+	player.jugarRondaHotseat();
 	
 
 	}
