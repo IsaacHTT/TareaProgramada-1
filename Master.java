@@ -6,6 +6,8 @@ public class Master{
 
 	private int cantidadHuerfanas = (((numeroFichas+1)*(numeroFichas+2))/2)-14;
 	private Ficha[] huerfanas;
+	private Ficha[] mano1;
+	private Ficha[] mano2;
 	
 	
 
@@ -45,11 +47,9 @@ public class Master{
 		public void repartirFichas(){
 
 			Ficha stageFicha = new Ficha(0, 0, 0);
+			this.mano1 = new Ficha[28];
+			this.mano2 = new Ficha[28];
 			
-			Ficha[] mano1;
-				mano1 = new Ficha[28];
-			Ficha[] mano2;
-				mano2 = new Ficha[28];
 
 			int m;
 			for(m=0; m <= 6; m++){
@@ -62,9 +62,9 @@ public class Master{
 
 				}
 			} while (stageFicha.getDisponible() == false);  //si la ficha seleccionada no esta en la pila, vuelve a seleccionar una al azar
-				mano1[m] = stageFicha;                      //cuando escogió una ficha que sí está disponible, se la asigna al jugador
+				this.mano1[m] = stageFicha;                      //cuando escogió una ficha que sí está disponible, se la asigna al jugador
 				stageFicha.setDisponible(false);			//esta ficha ya no estara disponible
-				System.out.println("Ficha"+m+"de jugador 1"+mano1[m].getId()+": ["+mano1[m].getArriba()+"|"+mano1[m].getAbajo()+"]");
+				//System.out.println("Ficha"+m+"de jugador 1"+mano1[m].getId()+": ["+mano1[m].getArriba()+"|"+mano1[m].getAbajo()+"]");
 
 
 
@@ -78,9 +78,9 @@ public class Master{
 					}
 				}
 			} while (stageFicha.getDisponible() == false);
-				mano2[m] = stageFicha;
+				this.mano2[m] = stageFicha;
 				stageFicha.setDisponible(false);
-				System.out.println("Ficha"+m+"de jugador 2"+mano2[m].getId()+": ["+mano2[m].getArriba()+"|"+mano2[m].getAbajo()+"]");
+				//System.out.println("Ficha"+m+"de jugador 2"+mano2[m].getId()+": ["+mano2[m].getArriba()+"|"+mano2[m].getAbajo()+"]");
 				
 			
 			
@@ -107,6 +107,10 @@ public class Master{
 				}																						//pero el otro tiene doble 4, el for volvera a ejecutarse hasta llegar a este y asignarle turno1.
 			}
 			System.out.println(turno1);
+		}
+
+		public Ficha[] getMano(){
+			return this.mano1;
 		}
 
 	}

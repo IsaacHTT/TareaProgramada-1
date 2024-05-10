@@ -8,6 +8,7 @@ public class Jugador{
 	//private boolean noFichas = false;
 	private int fichasComidas = 7;
 	private int suma;
+	private Master master;
 
 	int cantidadHuerfanas;
 	Ficha[] huerfanas;
@@ -15,13 +16,23 @@ public class Jugador{
 	Ficha fichaEscogida = new Ficha(0, 0, 0);
 	//Master master = new Master();
 
-	//public Jugador(int noJugador, int puntosJugador, Ficha[] manoJugador){
-	//	this.noJugador = noJugador;
+	public Jugador(int noJugador){
+		this.noJugador = noJugador;
 	//	this.puntosJugador = puntosJugador;
 	//	this.manoJugador = manoJugador;
-	//}
+	}
 
 	//Métodos
+
+
+
+	public void crearMaster(){
+		this.master = new Master();
+	}
+	public Master getMaster(){
+		return this.master;
+	}
+
 	public void setNoJugador(int noJugador){
 		this.noJugador = noJugador;
 	}
@@ -102,12 +113,12 @@ public class Jugador{
 			int comida;
 			do{
 				comida = (int)(Math.random()*cantidadHuerfanas);
-			} while(huerfanas[comida].getDisponible() == false);
+			} while(this.master.getHuerfanas()[comida].getDisponible() == false);
 
-			huerfanas[comida].setDisponible(false);
-			this.manoJugador[this.fichasComidas] = huerfanas[comida];
+			this.master.getHuerfanas()[comida].setDisponible(false);
+			this.master.getMano()[this.fichasComidas] = this.master.getHuerfanas()[comida];
 			this.fichasComidas = this.fichasComidas + 1;
-			this.suma = this.suma + huerfanas[comida].getArriba() + huerfanas[comida].getAbajo();
+			this.suma = this.suma + this.master.getHuerfanas()[comida].getArriba() + this.master.getHuerfanas()[comida].getAbajo();
 
 		}
 
