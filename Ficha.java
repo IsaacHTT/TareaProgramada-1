@@ -3,7 +3,7 @@ public class Ficha{
 	private int arriba;
 	private int id;
 	private boolean disponible;
-	//private Jugador dueno;
+	private int dueno;
 
 	public Ficha (int abajo, int arriba, int id){
 		this.abajo = abajo;
@@ -16,9 +16,9 @@ public class Ficha{
 		this.disponible = disponible;
 	}
 
-	//public void setDueno(Jugador player){
-	//	this.dueno = player;
-	//}
+	public void setDueno(int dueno){
+		this.dueno = dueno;
+	}
 
 	public int getAbajo(){
 		return this.abajo;
@@ -34,7 +34,7 @@ public class Ficha{
 		return this.disponible;
 	}
 
-	//public Jugador getDueno(){
-	//	return this.dueno;
-	//}
+	public int getDueno(){ //int porque es jugador 1 o 2
+		return this.dueno;
+	}
 }
