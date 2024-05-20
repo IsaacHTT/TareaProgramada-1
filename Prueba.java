@@ -3,21 +3,29 @@ import javax.swing.JOptionPane;
 public class Prueba{
 	public static void main(String [] args){
 
-	JOptionPane.showMessageDialog(null, "Bienvenido a este juego de domino. Presiona ok para comenzar y escoger tu configuracion de juego.");
+	JOptionPane.showMessageDialog(null, "Bienvenido a este juego de domino. Presiona OK para comenzar y escoger tu configuracion de juego.");
 
 	Jugador player1 = new Jugador(1); //crea los jugadores, un solo master asociado a player1 y le asigna el mismo master a player2
-	player1.crearMaster();
+	try{player1.crearMaster();
+	}
+	catch(Exception e){
+		JOptionPane.showMessageDialog(null, "Debe ingresar un numero entero");
+	}
 	Jugador player2 = new Jugador(2);
 	Master master = player1.getMaster(); //evita usar getMaster un monton de veces
 	player2.setMaster(master);
-	master.setBolsa(); //hace que se pueda acceder a listaFichas con master.bolsa. esto porque listafichas no es un atributo. basicamente me dio pereza cambiar todas las veces que aparecia lisatfichas
-	System.out.println(player1.getCantidadFichas() + "1" + player2.getCantidadFichas()); //print de prueba
+	//master.setBolsa(); //hace que se pueda acceder a listaFichas con master.bolsa. esto porque listafichas no es un atributo. basicamente me dio pereza cambiar todas las veces que aparecia lisatfichas
+	System.out.println(player1.getCantidadFichas() + " 1 " + player2.getCantidadFichas()); //print de prueba
 
 	master.setGamemode(); //lo primero despues de la bienvenida es el modo de juego
+	player1.setNombre(JOptionPane.showInputDialog("Jugador 1, ingrese su nombre:"));
+	player2.setNombre(JOptionPane.showInputDialog("Jugador 2, ingrese su nombre:"));
+	//SinglePlayer
 
-
+	//Hot-Seat
 	while(player1.getPuntosJugador() < 70 && player2.getPuntosJugador() < 70){  //se jugara un set siempre que ningun jugador tenga 70pts
  		master.generarFichas(); //todo set empieza generando fichas, repartiendolas, y determinando quien empieza
+ 		master.setBolsa();
  		master.repartirFichas();
 		master.escogerTurno();
 
@@ -30,10 +38,12 @@ public class Prueba{
 		}
 
 		if(master.getTurno1() == 1){
-		player1.suma = player1.getSuma() - 2*(master.getTablero().getIzq());										//la pieza del turno1 ya esta puesta, pero no se le ha descontado a su dueno. esto se hace aqui
+		player1.suma = player1.getSuma() - 2*(master.getTablero().getIzq());
+		player1.cantidadFichas = player1.cantidadFichas - 1;										//la pieza del turno1 ya esta puesta, pero no se le ha descontado a su dueno. esto se hace aqui
 		}
 		else{
 		player2.suma = player2.getSuma() - 2*(master.getTablero().getIzq());
+		player2.cantidadFichas = player2.cantidadFichas - 1;
 		}
 
 		if(master.getTurno1() == 1){				//el jugador con el turno1 ya jugo su turno, al poner la primera pieza, entonces se debe "emparejar" para poder inciar el bucle de turnos sin problemas.
@@ -43,12 +53,14 @@ public class Prueba{
 			player1.jugarRondaHotseat(1);			//esto busca el jugador que no tiene el turno1, y le da un turno
 		}
 
-		System.out.println(player1.getCantidadFichas() + "2" + player2.getCantidadFichas()); //print de prueba
+		System.out.println(player1.getCantidadFichas() + " 2 " + player2.getCantidadFichas()); //print de prueba
+		player1.imprimirMano();
+		player2.imprimirMano();
 
 		while(player1.getCantidadFichas() > 0 && player2.getCantidadFichas() > 0){				//siempre que ambos jugadores tengan fichas se jugara una ronda
 			if(master.getTurno1() == 1){														//los if y else grandes buscan el jugador del turno1 y le otorgan la prioridad
 				player1.jugarRondaHotseat(1);													//el jugador con prioridad juega su turno
-				System.out.println(player1.getCantidadFichas() + "3" + player2.getCantidadFichas());  //print de prueba
+				System.out.println(player1.getCantidadFichas() + " 3 " + player2.getCantidadFichas());  //print de prueba
 
 				if(player1.getCantidadFichas() > 0 && player2.getCantidadFichas() > 0){				//puede ser que el jugador con prioridad ya se haya quedado sin fichas, en este caso, este if no se satisface y el while tampoco
 					player2.jugarRondaHotseat(2);													//entonces se acaba el set
@@ -56,12 +68,12 @@ public class Prueba{
 			}
 			else{
 				player2.jugarRondaHotseat(2);
-				System.out.println(player1.getCantidadFichas() + "3" + player2.getCantidadFichas());
+				System.out.println(player1.getCantidadFichas() + " 3 " + player2.getCantidadFichas());
 				if(player1.getCantidadFichas() > 0 && player2.getCantidadFichas() > 0){
 					player1.jugarRondaHotseat(1);
 				}
 			}
-		System.out.println(player1.getCantidadFichas() + "4" + player2.getCantidadFichas()); //print de prueba
+		System.out.println(player1.getCantidadFichas() + " 4 " + player2.getCantidadFichas()); //print de prueba
 		}
 
 		if(player1.getCantidadFichas() == 0){				//busca el jugador que se quedo sin fichas y le otorga los puntos
@@ -89,13 +101,16 @@ public class Prueba{
 
 		player1.suma = 0; //reinicia las sumas
 		player2.suma = 0;
+		player1.cantidadFichas = 7;
+		player2.cantidadFichas = 7;
+		master.pila = master.getCantidadHuerfanas();
 	}
 
 	if(player1.puntosJugador >= 70){ //una vez un jugador alcanzo los 70pts, busca cual es y le da la victoria
-		//gana jugador1
+		JOptionPane.showMessageDialog(null, "Felicidades " + player1.getNombre() + ", usted es el ganador");
 	}
 	else{
-		//gana jugador2
+		JOptionPane.showMessageDialog(null, "Felicidades " + player2.getNombre() + ", usted es el ganador");
 	}
 
 	//System.out.println(player1.cantidadFichas + player2.cantidadFichas);

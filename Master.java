@@ -2,20 +2,21 @@ import javax.swing.JOptionPane;
 
 public class Master{
 
-	int numeroFichas = Integer.parseInt(JOptionPane.showInputDialog("Elija el numero de fichas"));
+	int numeroFichas = Integer.parseInt(JOptionPane.showInputDialog("Para elegir el dígito máximo de las fichas, por favor digítelo: 6, 7 u 8."));
 
 	private int cantidadHuerfanas = (((numeroFichas+1)*(numeroFichas+2))/2)-14;
-	private Ficha[] bolsa; //esto es la misma listaFichas, pero necesito accederla en el main. 
+	private Ficha[] bolsa; // = new Ficha[((numeroFichas+1)*(numeroFichas+2))/2]; //esto es la misma listaFichas, pero necesito accederla en el main. 
 	private Ficha[] huerfanas; 
 	private Ficha[] mano1;
 	private Ficha[] mano2;
 	private int turno1; //es el jugador 1 o 2
 	private Tablero tablero = new Tablero();
+	public int pila = (((numeroFichas+1)*(numeroFichas+2))/2)-14;
 	
 
 
 	public void setGamemode(){
-		int gamemode = Integer.parseInt(JOptionPane.showInputDialog("Elija el modo de juego")); //0 IA, 1 Hotseat
+		int gamemode = Integer.parseInt(JOptionPane.showInputDialog("Elija el modo de juego. Digite 0 para un oponente virtual, o 1 para un juego Hot-Seat.")); //0 IA, 1 Hotseat
 	}
 
 	public Tablero getTablero(){
@@ -34,6 +35,10 @@ public class Master{
 
 	public Ficha[] getBolsa(){
 		return this.bolsa;
+	}
+
+	public int getPila(){
+		return this.pila;
 	}
 
 
@@ -70,35 +75,35 @@ public class Master{
 			int m;
 			for(m=0; m <= 6; m++){
 				do{												//selecciona una ficha, aun no la asigna
-				int rand1 = (int)(Math.random()*28);
-				for(Ficha ficha : listaFichas){
-					if (ficha.getId() == rand1){
-					stageFicha = ficha;
+					int rand1 = (int)(Math.random()*28);
+					for(Ficha ficha : listaFichas){
+						if (ficha.getId() == rand1){
+						stageFicha = ficha;
+						}
+
 					}
+				} while (stageFicha.getDisponible() == false);  //si la ficha seleccionada no esta en la pila, vuelve a seleccionar una al azar
+					this.mano1[m] = stageFicha;                      //cuando escogió una ficha que sí está disponible, se la asigna al jugador
+					stageFicha.setDisponible(false);			//esta ficha ya no estara disponible
 
-				}
-			} while (stageFicha.getDisponible() == false);  //si la ficha seleccionada no esta en la pila, vuelve a seleccionar una al azar
-				this.mano1[m] = stageFicha;                      //cuando escogió una ficha que sí está disponible, se la asigna al jugador
-				stageFicha.setDisponible(false);			//esta ficha ya no estara disponible
-
-				System.out.println("Ficha"+m+"de jugador 1"+mano1[m].getId()+": ["+mano1[m].getArriba()+"|"+mano1[m].getAbajo()+"]");
-				stageFicha.setDueno(1);
+					System.out.println("Ficha "+m+" del jugador 1 "+mano1[m].getId()+": ["+mano1[m].getArriba()+"|"+mano1[m].getAbajo()+"]");
+					stageFicha.setDueno(1);
 
 
 
 
 				do{
-				int rand2 = (int)(Math.random()*27);
-				for(Ficha ficha : listaFichas){
-					if (ficha.getId() == rand2){
-					stageFicha = ficha;
+					int rand2 = (int)(Math.random()*27);
+					for(Ficha ficha : listaFichas){
+						if (ficha.getId() == rand2){
+						stageFicha = ficha;
+						}
 					}
-				}
-			} while (stageFicha.getDisponible() == false);
-				this.mano2[m] = stageFicha;
-				stageFicha.setDisponible(false);
-				System.out.println("Ficha"+m+"de jugador 2"+mano2[m].getId()+": ["+mano2[m].getArriba()+"|"+mano2[m].getAbajo()+"]");
-				stageFicha.setDueno(2);
+				} while (stageFicha.getDisponible() == false);
+					this.mano2[m] = stageFicha;
+					stageFicha.setDisponible(false);
+					System.out.println("Ficha "+m+" del jugador 2 "+mano2[m].getId()+": ["+mano2[m].getArriba()+"|"+mano2[m].getAbajo()+"]");
+					stageFicha.setDueno(2);
 			
 			
 			
@@ -117,17 +122,21 @@ public class Master{
 		}
 
 		public void escogerTurno(){
+			Ficha ficha1 = new Ficha(0, 0, 0);
 			int primera = 0;
 			for(Ficha ficha : listaFichas){
 				if(ficha.getDisponible() == false && ficha.getArriba() == ficha.getAbajo()){  			//busca todas las fichas dobles con dueno. si no tiene dueno la ignora, si no es doble tambien.
-					this.turno1 = ficha.getDueno();   //aqui iria un getDueño()									//la ultima asignación a turno1 se da con la ficha doble mas grande. si un jugador tiene doble 3, 
+					this.turno1 = ficha.getDueno();   								//la ultima asignación a turno1 se da con la ficha doble mas grande. si un jugador tiene doble 3, 
 					primera = ficha.getArriba();
+					ficha1 = ficha;
 				}																						//pero el otro tiene doble 4, el for volvera a ejecutarse hasta llegar a este y asignarle turno1.
 			}
 			System.out.println(turno1);
 			
+			ficha1.setEnMano(false);
 			this.tablero.setIzq(primera);															//esto equivale a poner la ficha doble mas grande en el tablero
 			this.tablero.setDer(primera);
+
 		}
 
 		public int getTurno1(){
